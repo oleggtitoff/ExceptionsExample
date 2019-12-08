@@ -1,8 +1,17 @@
 package ua.training;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class Main {
 
     public static void main(String[] args) {
+        try {
+            throwDifferentExceptions();
+        } catch (Throwable e) {
+            printToErr("Exception " + e.getClass().toString() + " caught in main\n\n");
+        }
+
         catchExceptionInInnerBlock();
         catchExceptionInOuterBlock();
         exceptionWithoutCatching();
@@ -94,6 +103,24 @@ public class Main {
         }
 
         printToErr(" 8");
+    }
+
+    private static void throwDifferentExceptions() throws IOException,
+            InterruptedException {
+        if (System.currentTimeMillis() % 2 == 0) {
+            throwIOException();
+        } else {
+            throwInterruptedException();
+        }
+    }
+
+    private static void throwIOException() throws IOException {
+        IOException exception = new FileNotFoundException();
+        throw exception;
+    }
+
+    private static void throwInterruptedException() throws InterruptedException {
+        throw new InterruptedException();
     }
 
 }
